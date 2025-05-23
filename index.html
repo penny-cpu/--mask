@@ -4,63 +4,127 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>傩面具组合（横屏）</title>
+  <title>傩面观容</title>
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      background-color: #f7f5f1;
-      font-family: sans-serif;
+      background: linear-gradient(135deg, #2f2c2c, #5a3d3d, #205142);
+      font-family: "STKaiti", serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
+      overflow: hidden;
+      color: #e3e3dc;
     }
+    h1 {
+      font-size: 3.2em;
+      color: #f8eac9;
+      margin: 20px 0 0;
+      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeInSlide 1.6s ease forwards;
+    }
+    h2 {
+      font-size: 1.2em;
+      color: #f0d9a1;
+      margin: 0 0 20px;
+      font-weight: normal;
+      opacity: 0;
+      animation: fadeInSlide 1.6s ease forwards;
+      animation-delay: 0.4s;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .container {
       display: flex;
       flex-direction: row;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       width: 100%;
-      max-width: 100vw;
-      height: 100%;
-      padding: 20px;
+      height: 75%;
+      padding: 0 30px;
       box-sizing: border-box;
     }
+
     #mask-container {
       position: relative;
-      width: 60vw;
-      height: 60vw;
-      max-height: 90vh;
+      width: 55vw;
+      height: 55vw;
+      max-height: 70vh;
     }
+
     .mask-part {
       position: absolute;
-      top: 0;
       left: 0;
       width: 100%;
+      opacity: 1;
+      transition: opacity 0.4s ease;
     }
+    #head { top: 0; }
+    #eyes { top: 5%; }
+    #nose { top: 20%; }
+    #mouth { top: 40%; }
+
     .controls {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      margin-left: 40px;
+      gap: 15px;
+      margin-left: 30px;
     }
-    button {
+
+    .controls img {
+      width: 100px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .controls img:hover {
+      transform: scale(1.05);
+    }
+
+    .functions {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 15px;
+    }
+
+    .functions button {
       padding: 10px 16px;
-      font-size: 18px;
-      border: none;
-      background-color: #444;
-      color: white;
+      font-size: 15px;
+      background: #333;
+      color: #d3f3e6;
+      border: 1px solid #66a98c;
       border-radius: 5px;
       cursor: pointer;
-      white-space: nowrap;
+      font-family: "STKaiti", serif;
     }
-    button:hover {
-      background-color: #222;
+
+    .functions button:hover {
+      background: #222;
+    }
+
+    .description {
+      margin-top: 15px;
+      max-width: 75vw;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6em;
+      color: #ddd8cc;
     }
   </style>
 </head>
 <body>
+  <h1>傩面观容</h1>
+  <h2>GONG ZUN DI MU</h2>
+
   <div class="container">
     <div id="mask-container">
       <img id="head" class="mask-part" src="assets/head1.png" />
@@ -69,29 +133,74 @@
       <img id="mouth" class="mask-part" src="assets/mouth1.png" />
     </div>
     <div class="controls">
-      <button onclick="switchPart('head')">换头</button>
-      <button onclick="switchPart('eyes')">换眼睛</button>
-      <button onclick="switchPart('nose')">换鼻子</button>
-      <button onclick="switchPart('mouth')">换嘴巴</button>
+      <img src="assets/btn_head.png" onclick="switchPart('head')" alt="冠首" />
+      <img src="assets/btn_eyes.png" onclick="switchPart('eyes')" alt="眉眼" />
+      <img src="assets/btn_nose.png" onclick="switchPart('nose')" alt="观鼻" />
+      <img src="assets/btn_mouth.png" onclick="switchPart('mouth')" alt="纳口" />
     </div>
   </div>
+
+  <div class="functions">
+    <button onclick="randomizeParts()">随机一组</button>
+    <button onclick="resetParts()">恢复初始</button>
+    <button onclick="downloadImage()">保存组合</button>
+  </div>
+
+  <div class="description">
+    傩面观容：传统与面貌的对话<br />
+    GONG ZUN DI MU: A Dialogue Between Tradition and Face<br />
+    本互动装置呈现贵州傩面具的眉眼鼻口组合之美，邀请你参与“观容”之礼。
+  </div>
+
   <script>
     const parts = {
-      head: ['assets/head1.png', 'assets/head2.png', 'assets/head3.png', 'assets/head4.png', 'assets/head5.png', 'assets/head6.png', 'assets/head7.png', 'assets/head8.png', 'assets/head9.png', 'assets/head10.png', 'assets/head11.png', 'assets/head12.png', 'assets/head13.png', 'assets/head14.png', 'assets/head15.png', 'assets/head16.png', 'assets/head17.png', 'assets/head18.png', 'assets/head19.png', 'assets/head20.png', 'assets/head21.png', 'assets/head22.png', 'assets/head23.png', 'assets/head24.png', 'assets/head25.png', 'assets/head26.png', 'assets/head27.png', 'assets/head28.png', 'assets/head29.png', 'assets/head30.png', 'assets/head31.png', 'assets/head32.png', 'assets/head33.png', 'assets/head34.png', 'assets/head35.png', 'assets/head36.png', 'assets/head37.png', 'assets/head38.png', 'assets/head39.png', 'assets/head40.png', 'assets/head41.png', 'assets/head42.png', 'assets/head43.png', 'assets/head44.png', 'assets/head45.png', 'assets/head46.png', 'assets/head47.png', 'assets/head48.png', 'assets/head49.png', 'assets/head50.png'],
-      eyes: ['assets/eyes1.png', 'assets/eyes2.png', 'assets/eyes3.png', 'assets/eyes4.png', 'assets/eyes5.png', 'assets/eyes6.png', 'assets/eyes7.png', 'assets/eyes8.png', 'assets/eyes9.png', 'assets/eyes10.png', 'assets/eyes11.png', 'assets/eyes12.png', 'assets/eyes13.png', 'assets/eyes14.png', 'assets/eyes15.png', 'assets/eyes16.png', 'assets/eyes17.png', 'assets/eyes18.png', 'assets/eyes19.png', 'assets/eyes20.png', 'assets/eyes21.png', 'assets/eyes22.png', 'assets/eyes23.png', 'assets/eyes24.png', 'assets/eyes25.png', 'assets/eyes26.png', 'assets/eyes27.png', 'assets/eyes28.png', 'assets/eyes29.png', 'assets/eyes30.png', 'assets/eyes31.png', 'assets/eyes32.png', 'assets/eyes33.png', 'assets/eyes34.png', 'assets/eyes35.png', 'assets/eyes36.png', 'assets/eyes37.png', 'assets/eyes38.png', 'assets/eyes39.png', 'assets/eyes40.png', 'assets/eyes41.png', 'assets/eyes42.png', 'assets/eyes43.png', 'assets/eyes44.png', 'assets/eyes45.png', 'assets/eyes46.png', 'assets/eyes47.png', 'assets/eyes48.png', 'assets/eyes49.png', 'assets/eyes50.png'],
-      nose: ['assets/nose1.png', 'assets/nose2.png', 'assets/nose3.png', 'assets/nose4.png', 'assets/nose5.png', 'assets/nose6.png', 'assets/nose7.png', 'assets/nose8.png', 'assets/nose9.png', 'assets/nose10.png', 'assets/nose11.png', 'assets/nose12.png', 'assets/nose13.png', 'assets/nose14.png', 'assets/nose15.png', 'assets/nose16.png', 'assets/nose17.png', 'assets/nose18.png', 'assets/nose19.png', 'assets/nose20.png', 'assets/nose21.png', 'assets/nose22.png', 'assets/nose23.png', 'assets/nose24.png', 'assets/nose25.png', 'assets/nose26.png', 'assets/nose27.png', 'assets/nose28.png', 'assets/nose29.png', 'assets/nose30.png', 'assets/nose31.png', 'assets/nose32.png', 'assets/nose33.png', 'assets/nose34.png', 'assets/nose35.png', 'assets/nose36.png', 'assets/nose37.png', 'assets/nose38.png', 'assets/nose39.png', 'assets/nose40.png', 'assets/nose41.png', 'assets/nose42.png', 'assets/nose43.png', 'assets/nose44.png', 'assets/nose45.png', 'assets/nose46.png', 'assets/nose47.png', 'assets/nose48.png', 'assets/nose49.png', 'assets/nose50.png'],
-      mouth: ['assets/mouth1.png', 'assets/mouth2.png', 'assets/mouth3.png', 'assets/mouth4.png', 'assets/mouth5.png', 'assets/mouth6.png', 'assets/mouth7.png', 'assets/mouth8.png', 'assets/mouth9.png', 'assets/mouth10.png', 'assets/mouth11.png', 'assets/mouth12.png', 'assets/mouth13.png', 'assets/mouth14.png', 'assets/mouth15.png', 'assets/mouth16.png', 'assets/mouth17.png', 'assets/mouth18.png', 'assets/mouth19.png', 'assets/mouth20.png', 'assets/mouth21.png', 'assets/mouth22.png', 'assets/mouth23.png', 'assets/mouth24.png', 'assets/mouth25.png', 'assets/mouth26.png', 'assets/mouth27.png', 'assets/mouth28.png', 'assets/mouth29.png', 'assets/mouth30.png', 'assets/mouth31.png', 'assets/mouth32.png', 'assets/mouth33.png', 'assets/mouth34.png', 'assets/mouth35.png', 'assets/mouth36.png', 'assets/mouth37.png', 'assets/mouth38.png', 'assets/mouth39.png', 'assets/mouth40.png', 'assets/mouth41.png', 'assets/mouth42.png', 'assets/mouth43.png', 'assets/mouth44.png', 'assets/mouth45.png', 'assets/mouth46.png', 'assets/mouth47.png', 'assets/mouth48.png', 'assets/mouth49.png', 'assets/mouth50.png']
+      head: Array.from({length: 50}, (_, i) => `assets/head${i + 1}.png`),
+      eyes: Array.from({length: 50}, (_, i) => `assets/eyes${i + 1}.png`),
+      nose: Array.from({length: 50}, (_, i) => `assets/nose${i + 1}.png`),
+      mouth: Array.from({length: 50}, (_, i) => `assets/mouth${i + 1}.png`)
     };
+
     const indexes = {
       head: 0,
       eyes: 0,
       nose: 0,
       mouth: 0
     };
+
     function switchPart(part) {
-      indexes[part] = (indexes[part] + 1) % parts[part].length;
-      document.getElementById(part).src = parts[part][indexes[part]];
+      const el = document.getElementById(part);
+      el.style.opacity = 0;
+      setTimeout(() => {
+        indexes[part] = (indexes[part] + 1) % parts[part].length;
+        el.src = parts[part][indexes[part]];
+        el.style.opacity = 1;
+      }, 200);
+    }
+
+    function randomizeParts() {
+      for (const part in parts) {
+        const i = Math.floor(Math.random() * parts[part].length);
+        indexes[part] = i;
+        document.getElementById(part).src = parts[part][i];
+      }
+    }
+
+    function resetParts() {
+      for (const part in parts) {
+        indexes[part] = 0;
+        document.getElementById(part).src = parts[part][0];
+      }
+    }
+
+    function downloadImage() {
+      html2canvas(document.getElementById("mask-container")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "nuo-mask.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
