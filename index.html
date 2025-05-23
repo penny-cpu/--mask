@@ -10,79 +10,54 @@
       margin: 0;
       padding: 0;
       height: 100%;
+      width: 100%;
       background: linear-gradient(135deg, #2f2c2c, #5a3d3d, #205142);
       font-family: "STKaiti", serif;
       display: flex;
       flex-direction: column;
-      align-items: center;
       overflow: hidden;
       color: #e3e3dc;
     }
-    h1 {
-      font-size: 3.2em;
+    .title {
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      text-align: left;
+    }
+    .title h1 {
+      font-size: 2.4em;
       color: #f8eac9;
-      margin: 20px 0 0;
+      margin: 0;
+    }
+    .title h2 {
+      font-size: 1em;
+      color: #e6d8ab;
+      font-weight: normal;
+      margin: 4px 0 0;
       letter-spacing: 0.1em;
     }
-    h2 {
-      font-size: 1.2em;
-      color: #f0d9a1;
-      margin: 0 0 20px;
-      font-weight: normal;
-    }
-    .container {
+
+    .main {
+      flex: 1;
       display: flex;
       flex-direction: row;
-      justify-content: center;
-      align-items: flex-start;
-      width: 100%;
-      height: 75%;
-      padding: 0 30px;
-      box-sizing: border-box;
+      justify-content: space-between;
+      align-items: center;
+      padding: 40px 60px;
     }
-    #mask-container {
-      position: relative;
-      width: 55vw;
-      height: 55vw;
-      max-height: 70vh;
-      margin-top: -6vh;
-      margin-left: -4vw;
-    }
-    .mask-part {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      transition: opacity 0.4s ease;
-    }
-    #head { top: 0; }
-    #eyes { top: 5%; }
-    #nose { top: 20%; }
-    #mouth { top: 30%; }
 
-    .controls {
+    .side-left, .side-right {
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      margin-left: 30px;
-    }
-    .controls img {
-      width: 100px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .controls img:hover {
-      transform: scale(1.05);
-    }
-    .functions {
-      display: flex;
+      align-items: center;
       justify-content: center;
+      height: 100%;
       gap: 18px;
-      margin-top: 15px;
-      z-index: 1000;
     }
-    .functions button {
+
+    .side-left button {
       padding: 10px 16px;
-      font-size: 15px;
+      font-size: 14px;
       background: #333;
       color: #d3f3e6;
       border: 1px solid #66a98c;
@@ -90,28 +65,66 @@
       cursor: pointer;
       font-family: "STKaiti", serif;
     }
+
+    .side-left button:hover {
+      background: #222;
+    }
+
+    .side-right img {
+      width: 90px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .side-right img:hover {
+      transform: scale(1.05);
+    }
+
+    #mask-container {
+      position: relative;
+      width: 40vw;
+      height: 40vw;
+      max-height: 80vh;
+    }
+    .mask-part {
+      position: absolute;
+      left: 0;
+      width: 100%;
+    }
+    #head { top: 0; }
+    #eyes { top: 5%; }
+    #nose { top: 20%; }
+    #mouth { top: 30%; }
+
     .description {
-      margin-top: 15px;
-      max-width: 75vw;
+      width: 100%;
       text-align: center;
-      font-size: 14px;
-      line-height: 1.6em;
-      color: #ddd8cc;
+      font-size: 12px;
+      padding: 10px 40px;
+      color: #ccc6b8;
     }
   </style>
 </head>
 <body>
-  <h1>傩面观容</h1>
-  <h2>GONG ZUN DI MU</h2>
+  <div class="title">
+    <h1>傩面观容</h1>
+    <h2>NUO MIAN GUAN RONG</h2>
+  </div>
 
-  <div class="container">
+  <div class="main">
+    <div class="side-left">
+      <button onclick="randomizeParts()">随机一组</button>
+      <button onclick="resetParts()">恢复初始</button>
+      <button onclick="downloadImage()">保存组合</button>
+    </div>
+
     <div id="mask-container">
       <img id="head" class="mask-part" src="assets/head1.png" />
       <img id="eyes" class="mask-part" src="assets/eyes1.png" />
       <img id="nose" class="mask-part" src="assets/nose1.png" />
       <img id="mouth" class="mask-part" src="assets/mouth1.png" />
     </div>
-    <div class="controls">
+
+    <div class="side-right">
       <img src="assets/btn_head.png" onclick="switchPart('head')" alt="冠首" />
       <img src="assets/btn_eyes.png" onclick="switchPart('eyes')" alt="眉眼" />
       <img src="assets/btn_nose.png" onclick="switchPart('nose')" alt="观鼻" />
@@ -119,16 +132,8 @@
     </div>
   </div>
 
-  <div class="functions">
-    <button onclick="randomizeParts()">随机一组</button>
-    <button onclick="resetParts()">恢复初始</button>
-    <button onclick="downloadImage()">保存组合</button>
-  </div>
-
   <div class="description">
-    傩面观容：传统与面貌的对话<br />
-    GONG ZUN DI MU: A Dialogue Between Tradition and Face<br />
-    本互动装置呈现贵州傩面具的眉眼鼻口组合之美，邀请你参与“观容”之礼。
+    傩面观容：传统与面貌的对话 — NUO MIAN GUAN RONG: A Dialogue Between Tradition and Face — 本互动装置呈现贵州傩面具的眉眼鼻口组合之美，邀请你参与“观容”之礼。
   </div>
 
   <script>
@@ -145,13 +150,8 @@
       mouth: 0
     };
     function switchPart(part) {
-      const el = document.getElementById(part);
-      el.style.opacity = 0;
-      setTimeout(() => {
-        indexes[part] = (indexes[part] + 1) % parts[part].length;
-        el.src = parts[part][indexes[part]];
-        el.style.opacity = 1;
-      }, 200);
+      indexes[part] = (indexes[part] + 1) % parts[part].length;
+      document.getElementById(part).src = parts[part][indexes[part]];
     }
     function randomizeParts() {
       for (const part in parts) {
