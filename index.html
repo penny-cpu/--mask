@@ -10,54 +10,95 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      width: 100%;
       background: linear-gradient(135deg, #2f2c2c, #5a3d3d, #205142);
       font-family: "STKaiti", serif;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
       overflow: hidden;
       color: #e3e3dc;
     }
-    .title {
-      position: absolute;
-      top: 20px;
-      left: 30px;
-      text-align: left;
-    }
-    .title h1 {
-      font-size: 2.4em;
+    h1 {
+      font-size: 3.2em;
       color: #f8eac9;
-      margin: 0;
-    }
-    .title h2 {
-      font-size: 1em;
-      color: #e6d8ab;
-      font-weight: normal;
-      margin: 4px 0 0;
+      margin: 20px 0 0;
       letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeInSlide 1.6s ease forwards;
+    }
+    h2 {
+      font-size: 1.2em;
+      color: #f0d9a1;
+      margin: 0 0 20px;
+      font-weight: normal;
+      opacity: 0;
+      animation: fadeInSlide 1.6s ease forwards;
+      animation-delay: 0.4s;
     }
 
-    .main {
-      flex: 1;
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: 40px 60px;
+      width: 100%;
+      height: 75%;
+      padding: 0 30px;
+      box-sizing: border-box;
     }
 
-    .side-left, .side-right {
+    #mask-container {
+      position: relative;
+      width: 55vw;
+      height: 55vw;
+      max-height: 70vh;
+    }
+
+    .mask-part {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+    #head { top: 0; }
+    #eyes { top: 5%; }
+    #nose { top: 20%; }
+    #mouth { top: 30%; }
+
+    .controls {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-      gap: 18px;
+      gap: 15px;
+      margin-left: 30px;
     }
 
-    .side-left button {
+    .controls img {
+      width: 100px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .controls img:hover {
+      transform: scale(1.05);
+    }
+
+    .functions {
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 15px;
+    }
+
+    .functions button {
       padding: 10px 16px;
-      font-size: 14px;
+      font-size: 15px;
       background: #333;
       color: #d3f3e6;
       border: 1px solid #66a98c;
@@ -66,65 +107,32 @@
       font-family: "STKaiti", serif;
     }
 
-    .side-left button:hover {
+    .functions button:hover {
       background: #222;
     }
 
-    .side-right img {
-      width: 90px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-    .side-right img:hover {
-      transform: scale(1.05);
-    }
-
-    #mask-container {
-      position: relative;
-      width: 40vw;
-      height: 40vw;
-      max-height: 80vh;
-    }
-    .mask-part {
-      position: absolute;
-      left: 0;
-      width: 100%;
-    }
-    #head { top: 0; }
-    #eyes { top: 5%; }
-    #nose { top: 20%; }
-    #mouth { top: 30%; }
-
     .description {
-      width: 100%;
+      margin-top: 15px;
+      max-width: 75vw;
       text-align: center;
-      font-size: 12px;
-      padding: 10px 40px;
-      color: #ccc6b8;
+      font-size: 14px;
+      line-height: 1.6em;
+      color: #ddd8cc;
     }
   </style>
 </head>
 <body>
-  <div class="title">
-    <h1>傩面观容</h1>
-    <h2>NUO MIAN GUAN RONG</h2>
-  </div>
+  <h1>傩面观容</h1>
+  <h2>GONG ZUN DI MU</h2>
 
-  <div class="main">
-    <div class="side-left">
-      <button onclick="randomizeParts()">随机一组</button>
-      <button onclick="resetParts()">恢复初始</button>
-      <button onclick="downloadImage()">保存组合</button>
-    </div>
-
+  <div class="container">
     <div id="mask-container">
       <img id="head" class="mask-part" src="assets/head1.png" />
       <img id="eyes" class="mask-part" src="assets/eyes1.png" />
       <img id="nose" class="mask-part" src="assets/nose1.png" />
       <img id="mouth" class="mask-part" src="assets/mouth1.png" />
     </div>
-
-    <div class="side-right">
+    <div class="controls">
       <img src="assets/btn_head.png" onclick="switchPart('head')" alt="冠首" />
       <img src="assets/btn_eyes.png" onclick="switchPart('eyes')" alt="眉眼" />
       <img src="assets/btn_nose.png" onclick="switchPart('nose')" alt="观鼻" />
@@ -132,8 +140,16 @@
     </div>
   </div>
 
+  <div class="functions">
+    <button onclick="randomizeParts()">随机一组</button>
+    <button onclick="resetParts()">恢复初始</button>
+    <button onclick="downloadImage()">保存组合</button>
+  </div>
+
   <div class="description">
-    傩面观容：传统与面貌的对话 — NUO MIAN GUAN RONG: A Dialogue Between Tradition and Face — 本互动装置呈现贵州傩面具的眉眼鼻口组合之美，邀请你参与“观容”之礼。
+    傩面观容：传统与面貌的对话<br />
+    GONG ZUN DI MU: A Dialogue Between Tradition and Face<br />
+    本互动装置呈现贵州傩面具的眉眼鼻口组合之美，邀请你参与“观容”之礼。
   </div>
 
   <script>
@@ -143,16 +159,24 @@
       nose: Array.from({length: 50}, (_, i) => `assets/nose${i + 1}.png`),
       mouth: Array.from({length: 50}, (_, i) => `assets/mouth${i + 1}.png`)
     };
+
     const indexes = {
       head: 0,
       eyes: 0,
       nose: 0,
       mouth: 0
     };
+
     function switchPart(part) {
-      indexes[part] = (indexes[part] + 1) % parts[part].length;
-      document.getElementById(part).src = parts[part][indexes[part]];
+      const el = document.getElementById(part);
+      el.style.opacity = 0;
+      setTimeout(() => {
+        indexes[part] = (indexes[part] + 1) % parts[part].length;
+        el.src = parts[part][indexes[part]];
+        el.style.opacity = 1;
+      }, 200);
     }
+
     function randomizeParts() {
       for (const part in parts) {
         const i = Math.floor(Math.random() * parts[part].length);
@@ -160,12 +184,14 @@
         document.getElementById(part).src = parts[part][i];
       }
     }
+
     function resetParts() {
       for (const part in parts) {
         indexes[part] = 0;
         document.getElementById(part).src = parts[part][0];
       }
     }
+
     function downloadImage() {
       html2canvas(document.getElementById("mask-container")).then(canvas => {
         const link = document.createElement("a");
@@ -175,6 +201,6 @@
       });
     }
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </body>
 </html>
